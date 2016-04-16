@@ -49,6 +49,10 @@ func main() {
 			Value: 1 * time.Second,
 			Usage: "GRPC connection timeout",
 		},
+		cli.StringFlag{
+			Name:  "runtime",
+			Usage: "rechoose the runtime for client, use the default one which the daemon choose if not specified",
+		},
 	}
 	app.Commands = []cli.Command{
 		checkpointCommand,
@@ -60,8 +64,18 @@ func main() {
 		if context.GlobalBool("debug") {
 			logrus.SetLevel(logrus.DebugLevel)
 		}
+
+		// Check the runtime for client.
+		//
+		// TODO(hukeping): if we should create a default constant to indicate which runtimes are supported by default,
+		// and return an error if an unsupported runtime was provided.
+		if context.GlobalString("runtime") == "" {
+			logrus.Infof("No runtime for client specified, use the default one from daemon.")
+		}
+
 		return nil
 	}
+
 	if err := app.Run(os.Args); err != nil {
 		logrus.Fatal(err)
 	}
