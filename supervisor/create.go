@@ -11,6 +11,7 @@ type StartTask struct {
 	platformStartTask
 	ID            string
 	BundlePath    string
+	Runtime       string
 	Stdout        string
 	Stderr        string
 	Stdin         string
@@ -21,11 +22,19 @@ type StartTask struct {
 
 func (s *Supervisor) start(t *StartTask) error {
 	start := time.Now()
+
+	var clientRuntime string
+	if t.Runtime != "" {
+		clientRuntime = t.Runtime
+	} else {
+		clientRuntime = s.runtime
+	}
+
 	container, err := runtime.New(runtime.ContainerOpts{
 		Root:        s.stateDir,
 		ID:          t.ID,
 		Bundle:      t.BundlePath,
-		Runtime:     s.runtime,
+		Runtime:     clientRuntime,
 		RuntimeArgs: s.runtimeArgs,
 		Shim:        s.shim,
 		Labels:      t.Labels,

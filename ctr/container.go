@@ -101,6 +101,7 @@ func listContainers(context *cli.Context) {
 	if err != nil {
 		fatal(err.Error(), 1)
 	}
+
 	w := tabwriter.NewWriter(os.Stdout, 20, 1, 3, ' ', 0)
 	fmt.Fprint(w, "ID\tPATH\tSTATUS\tPROCESSES\n")
 	sortContainers(resp.Containers)
@@ -166,6 +167,7 @@ var startCommand = cli.Command{
 			r                    = &types.CreateContainerRequest{
 				Id:          id,
 				BundlePath:  bpath,
+				Runtime:     context.GlobalString("runtime"),
 				Checkpoint:  context.String("checkpoint"),
 				Stdin:       s.stdin,
 				Stdout:      s.stdout,

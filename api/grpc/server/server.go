@@ -31,9 +31,11 @@ func (s *apiServer) CreateContainer(ctx context.Context, c *types.CreateContaine
 	if c.BundlePath == "" {
 		return nil, errors.New("empty bundle path")
 	}
+
 	e := &supervisor.StartTask{}
 	e.ID = c.Id
 	e.BundlePath = c.BundlePath
+	e.Runtime = c.Runtime
 	e.Stdin = c.Stdin
 	e.Stdout = c.Stdout
 	e.Stderr = c.Stderr
