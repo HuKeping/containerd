@@ -54,20 +54,21 @@ message SignalResponse {
 
 message AddProcessRequest {
 	string id = 1; // ID of container
-	bool terminal = 2; // Use tty for container stdio
-	User user = 3; // User under which process will be run
-	repeated string args = 4; // Arguments for process, first is binary path itself
-	repeated string env = 5; // List of environment variables for process
-	string cwd = 6; // Workind directory of process
-	string pid = 7; // Process ID
-	string stdin = 8; // path to the file where stdin will be read (optional)
-	string stdout = 9; // path to file where stdout will be written (optional)
-	string stderr = 10; // path to file where stderr will be written (optional)
-	repeated string capabilities = 11;
-	string apparmorProfile = 12;
-	string selinuxLabel = 13;
-	bool noNewPrivileges = 14;
-	repeated Rlimit rlimits = 15;
+	string runtime=2; // runtime for client
+	bool terminal = 3; // Use tty for container stdio
+	User user = 4; // User under which process will be run
+	repeated string args = 5; // Arguments for process, first is binary path itself
+	repeated string env = 6; // List of environment variables for process
+	string cwd = 7; // Workind directory of process
+	string pid = 8; // Process ID
+	string stdin = 9; // path to the file where stdin will be read (optional)
+	string stdout = 10; // path to file where stdout will be written (optional)
+	string stderr = 11; // path to file where stderr will be written (optional)
+	repeated string capabilities = 12;
+	string apparmorProfile = 13;
+	string selinuxLabel = 14;
+	bool noNewPrivileges = 15;
+	repeated Rlimit rlimits = 16;
 }
 
 message Rlimit {

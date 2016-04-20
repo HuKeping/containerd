@@ -87,6 +87,7 @@ func (s *apiServer) AddProcess(ctx context.Context, r *types.AddProcessRequest) 
 	e := &supervisor.AddProcessTask{}
 	e.ID = r.Id
 	e.PID = r.Pid
+	e.Runtime = r.Runtime
 	e.ProcessSpec = process
 	e.Stdin = r.Stdin
 	e.Stdout = r.Stdout

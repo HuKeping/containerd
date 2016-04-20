@@ -1,6 +1,7 @@
 package supervisor
 
 import (
+	"fmt"
 	"time"
 
 	"github.com/docker/containerd/runtime"
@@ -11,6 +12,7 @@ type AddProcessTask struct {
 	baseTask
 	ID            string
 	PID           string
+	Runtime       string
 	Stdout        string
 	Stderr        string
 	Stdin         string
@@ -24,6 +26,19 @@ func (s *Supervisor) addProcess(t *AddProcessTask) error {
 	if !ok {
 		return ErrContainerNotFound
 	}
+
+	// Use the default runtime from supervisor(the daemon) if the one
+	// for client was not specified
+	if t.Runtime == "" {
+		t.Runtime = s.runtime
+	}
+
+	// The runtime of the new client command should be the same as
+	// the one we use when starting the container.
+	if ci.container.Runtime() != t.Runtime {
+		return fmt.Errorf("Expect runtime:%s, got:%s", ci.container.Runtime(), t.Runtime)
+	}
+
 	process, err := ci.container.Exec(t.PID, *t.ProcessSpec, runtime.NewStdio(t.Stdin, t.Stdout, t.Stderr))
 	if err != nil {
 		return err

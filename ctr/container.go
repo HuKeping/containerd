@@ -447,6 +447,7 @@ var execCommand = cli.Command{
 		p := &types.AddProcessRequest{
 			Id:       context.String("id"),
 			Pid:      context.String("pid"),
+			Runtime:  context.GlobalString("runtime"),
 			Args:     context.Args(),
 			Cwd:      context.String("cwd"),
 			Terminal: context.Bool("tty"),
@@ -460,6 +461,7 @@ var execCommand = cli.Command{
 		if err != nil {
 			fatal(err.Error(), 1)
 		}
+
 		p.Stdin = s.stdin
 		p.Stdout = s.stdout
 		p.Stderr = s.stderr
