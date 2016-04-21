@@ -52,6 +52,9 @@ type Container interface {
 	OOM() (OOM, error)
 	// UpdateResource updates the containers resources to new values
 	UpdateResources(*Resource) error
+
+	// Signal sends the provided signal code to the container's initial process.
+	Signal(s os.Signal) error
 }
 
 type OOM interface {

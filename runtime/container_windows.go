@@ -19,6 +19,11 @@ func (c *container) Runtime() string {
 	return "windows"
 }
 
+// Signal implements the runtime Container interface.
+func (c *container) Signal(s os.Signal) error {
+	return errors.New("Signal not supported on Windows")
+}
+
 func (c *container) Pause() error {
 	return errors.New("Pause not supported on Windows")
 }

@@ -48,6 +48,11 @@ func (c *container) Runtime() string {
 	return c.runtime
 }
 
+// Signal implements the runtime Container interface.
+func (c *container) Signal(s os.Signal) error {
+	return nil
+}
+
 func (c *container) Pause() error {
 	args := c.runtimeArgs
 	args = append(args, "pause", c.id)
