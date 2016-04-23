@@ -168,9 +168,10 @@ message StateResponse {
 
 message UpdateContainerRequest {
 	string id = 1; // ID of container
-	string pid = 2;
-	string status = 3; // Status to whcih containerd will try to change
-	UpdateResource resources =4;
+	string runtime = 2; // runtime for client
+	string pid = 3;
+	string status = 4; // Status to whcih containerd will try to change
+	UpdateResource resources =5;
 }
 
 message UpdateResource {

@@ -177,6 +177,7 @@ func toUint32(its []int) []uint32 {
 func (s *apiServer) UpdateContainer(ctx context.Context, r *types.UpdateContainerRequest) (*types.UpdateContainerResponse, error) {
 	e := &supervisor.UpdateTask{}
 	e.ID = r.Id
+	e.Runtime = r.Runtime
 	e.State = runtime.State(r.Status)
 	if r.Resources != nil {
 		rs := r.Resources

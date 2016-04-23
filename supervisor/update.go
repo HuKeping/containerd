@@ -1,6 +1,7 @@
 package supervisor
 
 import (
+	"fmt"
 	"time"
 
 	"github.com/docker/containerd/runtime"
@@ -9,6 +10,7 @@ import (
 type UpdateTask struct {
 	baseTask
 	ID        string
+	Runtime   string
 	State     runtime.State
 	Resources *runtime.Resource
 }
@@ -19,6 +21,19 @@ func (s *Supervisor) updateContainer(t *UpdateTask) error {
 		return ErrContainerNotFound
 	}
 	container := i.container
+
+	// Use the default runtime from supervisor(the daemon) if the one
+	// for client was not specified
+	if t.Runtime == "" {
+		t.Runtime = s.runtime
+	}
+
+	// The runtime of the new client command should be the same as
+	// the one we use when starting the container.
+	if container.Runtime() != t.Runtime {
+		return fmt.Errorf("Expect runtime:%s, got:%s", container.Runtime(), t.Runtime)
+	}
+
 	if t.State != "" {
 		switch t.State {
 		case runtime.Running:

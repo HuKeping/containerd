@@ -342,9 +342,10 @@ var pauseCommand = cli.Command{
 		}
 		c := getClient(context)
 		_, err := c.UpdateContainer(netcontext.Background(), &types.UpdateContainerRequest{
-			Id:     id,
-			Pid:    "init",
-			Status: "paused",
+			Id:      id,
+			Runtime: context.GlobalString("runtime"),
+			Pid:     "init",
+			Status:  "paused",
 		})
 		if err != nil {
 			fatal(err.Error(), 1)
@@ -362,9 +363,10 @@ var resumeCommand = cli.Command{
 		}
 		c := getClient(context)
 		_, err := c.UpdateContainer(netcontext.Background(), &types.UpdateContainerRequest{
-			Id:     id,
-			Pid:    "init",
-			Status: "running",
+			Id:      id,
+			Runtime: context.GlobalString("runtime"),
+			Pid:     "init",
+			Status:  "running",
 		})
 		if err != nil {
 			fatal(err.Error(), 1)
